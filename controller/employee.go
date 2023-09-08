@@ -41,3 +41,19 @@ func GetEmployeeById(c *fiber.Ctx) error {
 
 	return c.JSON(employee)
 }
+
+func DeleteEmployee(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+	err = db.Delete(&model.Employee{}, id).Error
+	if err != nil {
+		return c.SendString(err.Error())
+	}
+	return c.SendStatus(http.StatusOK)
+}

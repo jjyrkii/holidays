@@ -21,27 +21,32 @@ func init() {
 	if err != nil {
 		log.Fatal("Database migration failed")
 	}
+	db.Create(&model.Employee{
+		FirstName: "aösjkdlhfö",
+		LastName:  "aösdfösd",
+		Address: model.Address{
+			Street:      "ddddd",
+			HouseNumber: 47,
+			ZipCode:     53299,
+			City:        "berlin",
+		},
+	})
 }
 
 func main() {
 	// create
-	// db.Create(&model.Employee{
-	//	FirstName: "aösjkdlhfö",
-	//	LastName:  "aösdfösd",
-	//	Address: model.Address{
-	//		Street:      "ddddd",
-	//		HouseNumber: 48,
-	//		ZipCode:     53300,
-	//		City:        "berlin",
-	//	},
-	// })
 
 	// web server instance
 	app := fiber.New()
 
-	// /employee endpoints
-	employee := app.Group("/employee", controller.GetAllEmployees)
-	employee.Get("/:id", controller.GetEmployeeById)
+	e := app.Group("/employee")
+	e.Get("/", controller.GetAllEmployees)
+	e.Get("/:id", controller.GetEmployeeById)
+	e.Delete("/:id", controller.DeleteEmployee)
+	// // /employee endpoints
+	// app.Get("/employee", controller.GetAllEmployees)
+	// app.Get("/employee/:id", controller.GetEmployeeById)
+	// app.Get("/employee/:id", controller.DeleteEmployee)
 
 	err := app.Listen(":3000")
 	if err != nil {
