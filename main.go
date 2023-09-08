@@ -33,13 +33,13 @@ func main() {
 
 	// create
 	db.Create(&model.Employee{
-		FirstName: "Tim",
-		LastName:  "Pfeiffer",
+		FirstName: "aösjkdlhfö",
+		LastName:  "aösdfösd",
 		Address: model.Address{
-			Street:      "Baentschstraße",
-			HouseNumber: 11,
-			ZipCode:     55122,
-			City:        "Mainz",
+			Street:      "ddddd",
+			HouseNumber: 48,
+			ZipCode:     53300,
+			City:        "berlin",
 		},
 	})
 
