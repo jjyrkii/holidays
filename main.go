@@ -13,10 +13,9 @@ var db *gorm.DB
 var err error
 
 func getProduct(ctx *fiber.Ctx) error {
-	var product model.Product
-	db.First(&product)
-	return ctx.SendString(product.Format())
-	//return ctx.JSON(product)
+	var employee model.Employee
+	db.First(&employee)
+	return ctx.JSON(employee)
 }
 
 func main() {
@@ -27,30 +26,24 @@ func main() {
 	}
 
 	// db migration
-	err = db.AutoMigrate(&model.Product{})
+	err = db.AutoMigrate(&model.Employee{}, &model.Address{})
 	if err != nil {
 		panic(err)
 	}
 
 	// create
-	db.Create(&model.Product{
-		Code:  "D42",
-		Price: 100,
+	db.Create(&model.Employee{
+		FirstName: "Tim",
+		LastName:  "Pfeiffer",
+		Address: model.Address{
+			Street:      "Baentschstraße",
+			HouseNumber: 11,
+			ZipCode:     55122,
+			City:        "Mainz",
+		},
 	})
 
 	// read
-	var product model.Product
-	db.First(&product, 1)
-	db.First(&product, "code = ?", "D42")
-
-	// update
-	db.Model(&product).Update("Price", 200)
-
-	db.Model(&product).Updates(model.Product{Price: 200, Code: product.Code})
-	db.Model(&product).Updates(map[string]interface{}{"Price": 200, "Code": "F42"})
-
-	//delete
-	db.Delete(&product, 1)
 	app := fiber.New()
 
 	app.Get("/", getProduct)
