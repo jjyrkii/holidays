@@ -10,12 +10,3 @@ type Employee struct {
 	LastName  string
 	Address   Address
 }
-
-type Address struct {
-	gorm.Model
-	Street      string
-	HouseNumber uint
-	ZipCode     uint
-	City        string
-	EmployeeID  uint
-}
