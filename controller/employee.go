@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/jjyrkii/holidays/model"
@@ -19,4 +20,24 @@ func GetAllEmployees(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(http.StatusInternalServerError)
 	}
 	return ctx.JSON(employees)
+}
+
+func GetEmployeeById(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+
+	var employee model.Employee
+	err = db.Preload("Address").First(&employee, id).Error
+	if err != nil {
+		return c.SendStatus(http.StatusNotFound)
+	}
+
+	return c.JSON(employee)
 }

@@ -24,20 +24,8 @@ func init() {
 }
 
 func main() {
-	//// db connection
-	//db, err := utils.GetDB()
-	//if err != nil {
-	//	log.Fatal("Could not establish database connection")
-	//}
-	//
-	//// db migration
-	//err = db.AutoMigrate(&model.Employee{}, &model.Address{})
-	//if err != nil {
-	//	panic(err)
-	//}
-
 	// create
-	//db.Create(&model.Employee{
+	// db.Create(&model.Employee{
 	//	FirstName: "aösjkdlhfö",
 	//	LastName:  "aösdfösd",
 	//	Address: model.Address{
@@ -46,11 +34,14 @@ func main() {
 	//		ZipCode:     53300,
 	//		City:        "berlin",
 	//	},
-	//})
+	// })
 
+	// web server instance
 	app := fiber.New()
 
-	app.Get("/", controller.GetAllEmployees)
+	// /employee endpoints
+	employee := app.Group("/employee", controller.GetAllEmployees)
+	employee.Get("/:id", controller.GetEmployeeById)
 
 	err := app.Listen(":3000")
 	if err != nil {
