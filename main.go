@@ -9,8 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// Flo lügt
-
 var db *gorm.DB
 var err error
 
