@@ -34,6 +34,7 @@ func main() {
 	e.Get("/:id", controller.GetEmployeeById)
 	e.Delete("/:id", controller.DeleteEmployee)
 	e.Post("/", controller.CreateEmployee)
+	e.Put("/:id", controller.UpdateEmployee)
 	err := app.Listen(":3000")
 	if err != nil {
 		panic(err)
