@@ -15,7 +15,7 @@ func GetAllEmployees(ctx *fiber.Ctx) error {
 		return ctx.SendStatus(http.StatusInternalServerError)
 	}
 	var employees []model.Employee
-	err = db.Model(&model.Employee{}).Preload("Address").Find(&employees).Error
+	err = db.Model(&model.Employee{}).Find(&employees).Error
 	if err != nil {
 		return ctx.SendStatus(http.StatusInternalServerError)
 	}
@@ -34,7 +34,7 @@ func GetEmployeeById(c *fiber.Ctx) error {
 	}
 
 	var employee model.Employee
-	err = db.Preload("Address").First(&employee, id).Error
+	err = db.First(&employee, id).Error
 	if err != nil {
 		return c.SendStatus(http.StatusNotFound)
 	}
@@ -55,5 +55,19 @@ func DeleteEmployee(c *fiber.Ctx) error {
 	if err != nil {
 		return c.SendString(err.Error())
 	}
+	return c.SendStatus(http.StatusOK)
+}
+
+func CreateEmployee(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+	employee := model.Employee{}
+	err = c.BodyParser(&employee)
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+	db.Create(&employee)
 	return c.SendStatus(http.StatusOK)
 }

@@ -17,20 +17,10 @@ func init() {
 	}
 
 	// db migration
-	err = db.AutoMigrate(&model.Employee{}, &model.Address{})
+	err = db.AutoMigrate(&model.Employee{})
 	if err != nil {
 		log.Fatal("Database migration failed")
 	}
-	db.Create(&model.Employee{
-		FirstName: "aösjkdlhfö",
-		LastName:  "aösdfösd",
-		Address: model.Address{
-			Street:      "ddddd",
-			HouseNumber: 47,
-			ZipCode:     53299,
-			City:        "berlin",
-		},
-	})
 }
 
 func main() {
@@ -43,11 +33,7 @@ func main() {
 	e.Get("/", controller.GetAllEmployees)
 	e.Get("/:id", controller.GetEmployeeById)
 	e.Delete("/:id", controller.DeleteEmployee)
-	// // /employee endpoints
-	// app.Get("/employee", controller.GetAllEmployees)
-	// app.Get("/employee/:id", controller.GetEmployeeById)
-	// app.Get("/employee/:id", controller.DeleteEmployee)
-
+	e.Post("/", controller.CreateEmployee)
 	err := app.Listen(":3000")
 	if err != nil {
 		panic(err)
