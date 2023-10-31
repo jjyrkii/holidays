@@ -11,7 +11,3 @@ type Holiday struct {
 	Approved   bool
 	EmployeeID uint
 }
-
-func (h *Holiday) Approve() {
-	h.Approved = true
-}
