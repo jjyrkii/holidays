@@ -9,22 +9,41 @@ import (
 	"github.com/jjyrkii/holidays/utils"
 )
 
-func GetAllEmployees(c *fiber.Ctx) error {
+func CreateHoliday(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
 
-	var employees []model.Employee
-	err = db.Model(&model.Employee{}).Preload("Holidays").Find(&employees).Error
+	var holiday model.Holiday
+	err = c.BodyParser(&holiday)
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+	err = db.Create(&holiday).Error
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
 
-	return c.JSON(employees)
+	return c.SendStatus(http.StatusOK)
 }
 
-func GetEmployeeById(c *fiber.Ctx) error {
+func GetAllHolidays(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	var holidays []model.Holiday
+	err = db.Model(&model.Holiday{}).Find(&holidays).Error
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	return c.JSON(holidays)
+}
+
+func GetHolidayById(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
@@ -35,16 +54,16 @@ func GetEmployeeById(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	var employee model.Employee
-	err = db.First(&employee, id).Error
+	var holiday model.Holiday
+	err = db.First(&holiday, id).Error
 	if err != nil {
 		return c.SendStatus(http.StatusNotFound)
 	}
 
-	return c.JSON(employee)
+	return c.JSON(holiday)
 }
 
-func DeleteEmployee(c *fiber.Ctx) error {
+func GetHolidaysForEmployee(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
@@ -55,49 +74,55 @@ func DeleteEmployee(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	err = db.Delete(&model.Employee{}, id).Error
+	var holidays []model.Holiday
+	err = db.Where("employee_id = ?", id).Find(&holidays).Error
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
 
-	return c.SendStatus(http.StatusOK)
+	return c.JSON(holidays)
 }
 
-func CreateEmployee(c *fiber.Ctx) error {
+func DeleteHoliday(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
 
-	var employee model.Employee
-	err = c.BodyParser(&employee)
-	if err != nil {
-		return c.SendStatus(http.StatusBadRequest)
-	}
-
-	db.Create(&employee)
-
-	return c.SendStatus(http.StatusOK)
-}
-
-func UpdateEmployee(c *fiber.Ctx) error {
-	db, err := utils.GetDB()
-	if err != nil {
-		return c.SendStatus(http.StatusInternalServerError)
-	}
-
-	var employee model.Employee
 	id, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	err = c.BodyParser(&employee)
+	err = db.Delete(&model.Holiday{}, id).Error
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}
 
-	db.Where("id = ?", id).Updates(&employee)
+	return c.SendStatus(http.StatusOK)
+}
+
+func UpdateHoliday(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	var holiday model.Holiday
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+
+	err = c.BodyParser(&holiday)
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	err = db.Where("id = ?", id).Updates(&holiday).Error
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
 
 	return c.SendStatus(http.StatusOK)
 }

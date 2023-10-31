@@ -1,15 +1,12 @@
 package model
 
-import (
-	"gorm.io/gorm"
-)
-
 type Employee struct {
-	gorm.Model
+	ID          uint `gorm:"primarykey"`
 	FirstName   string
 	LastName    string
 	Street      string
 	HouseNumber uint
 	ZipCode     uint
 	City        string
+	Holidays    []Holiday
 }
