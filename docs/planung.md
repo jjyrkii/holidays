@@ -1,8 +1,10 @@
 # Projektplanung Verwaltung von Personalressourcen (Kessel & Pfeiffer)
 
+## Projektbeschreibung und Zielsetzung
+
 Die effiziente Verwaltung von Personalressourcen und Urlaubsanträgen ist für jedes Unternehmen von entscheidender Bedeutung. In diesem Projekt setzen wir das Ziel, die Abläufe in der Personal- und Urlaubsverwaltung, die bisher händisch erfolgten, zu optimieren. Durch die Einführung eines Systems zur Personal- und Urlaubsverwaltung werden Mitarbeiter und Vorgesetzte in der Urlaubsplanung und die Personalabteilung im Prozess der Personal- und Urlaubsverwaltung unterstützt.
 
-## Veranschaulichung der Projektziele und Abläufe mittels UML-Diagrammen
+## Projektumfang
 
 Die folgenden Diagramme wurden entwickelt, um die Abläufe und Interaktionen im Rahmen unserer Projektplanung für die Personal- und Urlaubsverwaltung eines mittelständischen Unternehmens zu veranschaulichen. Diese visuellen Darstellungen dienen dazu, die verschiedenen Prozesse und Schnittstellen in unserem Projekt zu verdeutlichen. Wir haben Use-Case-Diagramme und Aktivitätsdiagramme verwendet, um die funktionalen Anforderungen und den Ablauf der Genehmigung und Weiterleitung von Urlaubsanträgen darzustellen.
 
@@ -63,6 +65,26 @@ stop
 
 @enduml
 ~~~
+
+## Projektzeitplan
+
+    Eine Zeitleiste, die die Start- und Endtermine für jede Aktivität im Projekt festlegt.
+
+## Meilensteine
+
+    Wichtige Zwischenziele und Erfolgskriterien, die im Verlauf des Projekts erreicht werden sollen.
+
+## Ressourcenplanung
+    
+    Informationen darüber, welche Ressourcen (Mitarbeiter, Budget, Materialien) benötigt werden, um das Projekt durchzuführen.
+
+## Schlussfolgerung und Evaluation
+
+        Wie und wann wird das Projekt abgeschlossen und bewertet, um sicherzustellen, dass die Ziele erreicht wurden?
+
+## Projektteam und Kontakte
+
+        Eine Liste der Teammitglieder und relevanter Kontakte.
 
 
 ## TODO
