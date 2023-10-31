@@ -36,7 +36,7 @@ func GetEmployeeById(c *fiber.Ctx) error {
 	}
 
 	var employee model.Employee
-	err = db.First(&employee, id).Error
+	err = db.Model(&employee).Preload("Holidays").First(&employee, id).Error
 	if err != nil {
 		return c.SendStatus(http.StatusNotFound)
 	}
@@ -75,7 +75,7 @@ func CreateEmployee(c *fiber.Ctx) error {
 		return c.SendStatus(http.StatusBadRequest)
 	}
 
-	db.Create(&employee)
+	db.Save(&employee)
 
 	return c.SendStatus(http.StatusOK)
 }

@@ -20,7 +20,12 @@ func CreateHoliday(c *fiber.Ctx) error {
 	if err != nil {
 		return c.SendStatus(http.StatusBadRequest)
 	}
-	err = db.Create(&holiday).Error
+
+	if db.Find(&model.Employee{}, holiday.EmployeeID).RowsAffected == 0 {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+
+	err = db.Save(&holiday).Error
 	if err != nil {
 		return c.SendStatus(http.StatusInternalServerError)
 	}

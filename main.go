@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/jjyrkii/holidays/controller"
@@ -22,20 +21,13 @@ func init() {
 	if err != nil {
 		log.Fatal("Database migration failed")
 	}
-
-	h := model.Holiday{
-		Start:      time.Time{},
-		End:        time.Time{},
-		EmployeeID: 1,
-	}
-	db.Save(&h)
 }
 
 func main() {
 	// web server instance
 	app := fiber.New()
 
-	// route definitions
+	// route definitions for managing employees
 	e := app.Group("/employee")
 	e.Get("/", controller.GetAllEmployees)
 	e.Get("/:id", controller.GetEmployeeById)
@@ -43,6 +35,7 @@ func main() {
 	e.Post("/", controller.CreateEmployee)
 	e.Put("/:id", controller.UpdateEmployee)
 
+	// route definitions for managing holidays
 	h := app.Group("/holiday")
 	h.Get("/", controller.GetAllHolidays)
 	h.Get("/:id", controller.GetHolidayById)
