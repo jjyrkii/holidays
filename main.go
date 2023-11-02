@@ -4,7 +4,9 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/swagger"
 	"github.com/jjyrkii/holidays/controller"
+	_ "github.com/jjyrkii/holidays/docs"
 	"github.com/jjyrkii/holidays/model"
 	"github.com/jjyrkii/holidays/utils"
 )
@@ -23,6 +25,11 @@ func init() {
 	}
 }
 
+// @title Holidays
+// @version 1.0
+// @description This is a service to manage Employees and their holidays
+// @host 127.0.0.1:3000
+// @BasePath /
 func main() {
 	// web server instance
 	app := fiber.New()
@@ -49,6 +56,9 @@ func main() {
 	x.Get("/", controller.FullExport)
 	x.Get("employee/:id", controller.ExportEmployee)
 	x.Get("holiday/:id", controller.ExportHoliday)
+
+	// route for the documentation
+	app.Get("/docs/*", swagger.HandlerDefault)
 
 	err := app.Listen(":3000")
 	if err != nil {

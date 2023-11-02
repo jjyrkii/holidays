@@ -6,13 +6,13 @@ import (
 )
 
 type Employee struct {
-	ID          uint `gorm:"primarykey"`
-	FirstName   string
-	LastName    string
-	Street      string
-	HouseNumber uint
-	ZipCode     uint
-	City        string
+	ID          uint   `gorm:"primarykey"`
+	FirstName   string `binding:"required"`
+	LastName    string `binding:"required"`
+	Street      string `binding:"required"`
+	HouseNumber uint   `binding:"required"`
+	ZipCode     uint   `binding:"required"`
+	City        string `binding:"required"`
 	Holidays    []Holiday
 }
 

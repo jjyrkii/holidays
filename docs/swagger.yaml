@@ -1,0 +1,277 @@
+basePath: /
+definitions:
+  model.Employee:
+    properties:
+      city:
+        type: string
+      firstName:
+        type: string
+      holidays:
+        items:
+          $ref: '#/definitions/model.Holiday'
+        type: array
+      houseNumber:
+        type: integer
+      id:
+        type: integer
+      lastName:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: integer
+    required:
+    - city
+    - firstName
+    - houseNumber
+    - lastName
+    - street
+    - zipCode
+    type: object
+  model.Holiday:
+    properties:
+      approved:
+        type: boolean
+      employeeID:
+        type: integer
+      end:
+        type: string
+      id:
+        type: integer
+      start:
+        type: string
+    required:
+    - approved
+    - employeeID
+    - end
+    - start
+    type: object
+host: 127.0.0.1:3000
+info:
+  contact: {}
+  description: This is a service to manage Employees and their holidays
+  title: Holidays
+  version: "1.0"
+paths:
+  /employee:
+    get:
+      description: Get a list of all employees with their associated holiday records
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get all employees
+      tags:
+      - read
+    post:
+      consumes:
+      - application/json
+      description: Create a new employee
+      parameters:
+      - description: JSON data to create a new employee
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      responses:
+        "200":
+          description: OK
+      summary: Create employee
+      tags:
+      - create
+  /employee/{id}:
+    delete:
+      description: Delete data for a single employee
+      parameters:
+      - description: The employees id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Delete an employee
+      tags:
+      - delete
+    get:
+      description: Get data for a single employee with their associated holiday records
+      parameters:
+      - description: The employees id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get a single employee
+      tags:
+      - read
+    put:
+      consumes:
+      - application/json
+      description: Update the values for an employee
+      parameters:
+      - description: Employees id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated JSON data for an employee
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Employee'
+      responses:
+        "200":
+          description: OK
+      summary: Update employee
+      tags:
+      - update
+  /export:
+    get:
+      description: Get a JSON file containing all employee and holiday data
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: Export everything as JSON
+      tags:
+      - export
+  /export/employee/{id}:
+    get:
+      description: Get a JSON file containing all employee and holiday data for a
+        specific employee
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: Export employee as JSON
+      tags:
+      - export
+  /export/holiday/{id}:
+    get:
+      description: Get a JSON file containing all data for a specific holiday
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: file
+      summary: Export holiday as JSON
+      tags:
+      - export
+  /holiday:
+    get:
+      description: Get a list of all holidays
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get all holidays
+      tags:
+      - read
+    post:
+      consumes:
+      - application/json
+      description: Create a new holiday
+      parameters:
+      - description: JSON data to create a new holiday
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Holiday'
+      responses:
+        "200":
+          description: OK
+      summary: Create holiday
+      tags:
+      - create
+  /holiday/{id}:
+    delete:
+      description: Delete data for a single holiday
+      parameters:
+      - description: The holidays id
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+      summary: Delete a holiday
+      tags:
+      - delete
+    get:
+      description: Get data for a single holiday
+      parameters:
+      - description: The holidays id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Holiday'
+      summary: Get a single holiday
+      tags:
+      - read
+    put:
+      consumes:
+      - application/json
+      description: Update the values for a holiday
+      parameters:
+      - description: Holidays id
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated JSON data for an employee
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Holiday'
+      responses:
+        "200":
+          description: OK
+      summary: Update holiday
+      tags:
+      - update
+  /holiday/employee/{id}:
+    get:
+      description: Get all the associated holidays for a specific employee
+      parameters:
+      - description: The employees id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Get a holidays for employee
+      tags:
+      - read
+swagger: "2.0"

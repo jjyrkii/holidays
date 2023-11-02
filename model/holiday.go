@@ -7,11 +7,11 @@ import (
 )
 
 type Holiday struct {
-	ID         uint `gorm:"primarykey"`
-	Start      time.Time
-	End        time.Time
-	Approved   bool
-	EmployeeID uint
+	ID         uint      `gorm:"primarykey"`
+	Start      time.Time `binding:"required"`
+	End        time.Time `binding:"required"`
+	Approved   bool      `binding:"required"`
+	EmployeeID uint      `binding:"required"`
 }
 
 func (h Holiday) Export() (*os.File, error) {

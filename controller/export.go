@@ -11,6 +11,13 @@ import (
 	"github.com/jjyrkii/holidays/utils"
 )
 
+// FullExport godoc
+// @Summary Export everything as JSON
+// @Description Get a JSON file containing all employee and holiday data
+// @Tags export
+// @Produce json
+// @Success 200 {file} application/json
+// @Router /export [get]
 func FullExport(c *fiber.Ctx) error {
 	if _, err := os.Stat("export.json"); err == nil {
 		if err := os.Remove("export.json"); err != nil {
@@ -42,6 +49,13 @@ func FullExport(c *fiber.Ctx) error {
 	return c.SendFile("export.json")
 }
 
+// ExportEmployee godoc
+// @Summary Export employee as JSON
+// @Description Get a JSON file containing all employee and holiday data for a specific employee
+// @Tags export
+// @Produce json
+// @Success 200 {file} application/json
+// @Router /export/employee/{id} [get]
 func ExportEmployee(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
@@ -68,6 +82,13 @@ func ExportEmployee(c *fiber.Ctx) error {
 	}
 }
 
+// ExportHoliday godoc
+// @Summary Export holiday as JSON
+// @Description Get a JSON file containing all data for a specific holiday
+// @Tags export
+// @Produce json
+// @Success 200 {file} application/json
+// @Router /export/holiday/{id} [get]
 func ExportHoliday(c *fiber.Ctx) error {
 	db, err := utils.GetDB()
 	if err != nil {
