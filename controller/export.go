@@ -67,3 +67,29 @@ func ExportEmployee(c *fiber.Ctx) error {
 		return c.SendFile(file.Name())
 	}
 }
+
+func ExportHoliday(c *fiber.Ctx) error {
+	db, err := utils.GetDB()
+	if err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	}
+
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.SendStatus(http.StatusBadRequest)
+	}
+
+	var holiday model.Holiday
+	err = db.Model(&holiday).First(&holiday, id).Error
+	if err != nil {
+		return c.SendStatus(http.StatusNotFound)
+	}
+
+	var file *os.File
+	if file, err = holiday.Export(); err != nil {
+		return c.SendStatus(http.StatusInternalServerError)
+	} else {
+
+		return c.SendFile(file.Name())
+	}
+}

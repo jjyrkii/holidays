@@ -48,6 +48,7 @@ func main() {
 	x := app.Group("export")
 	x.Get("/", controller.FullExport)
 	x.Get("employee/:id", controller.ExportEmployee)
+	x.Get("holiday/:id", controller.ExportHoliday)
 
 	err := app.Listen(":3000")
 	if err != nil {

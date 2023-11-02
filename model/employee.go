@@ -23,6 +23,12 @@ func (e Employee) Export() (*os.File, error) {
 		err     error
 	)
 
+	if _, err := os.Stat("employee_export.json"); err == nil {
+		if err := os.Remove("employee_export.json"); err != nil {
+			return nil, err
+		}
+	}
+
 	if content, err = json.Marshal(e); err != nil {
 		return nil, err
 	}

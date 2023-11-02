@@ -21,6 +21,12 @@ func (h Holiday) Export() (*os.File, error) {
 		err     error
 	)
 
+	if _, err := os.Stat("holiday_export.json"); err == nil {
+		if err := os.Remove("holiday_export.json"); err != nil {
+			return nil, err
+		}
+	}
+
 	if content, err = json.Marshal(h); err != nil {
 		return nil, err
 	}
