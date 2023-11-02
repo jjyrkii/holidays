@@ -44,6 +44,11 @@ func main() {
 	h.Get("/employee/:id", controller.GetHolidaysForEmployee)
 	e.Put("/:id", controller.UpdateHoliday)
 
+	// route definitions for managing file exports
+	x := app.Group("export")
+	x.Get("/", controller.FullExport)
+	x.Get("employee/:id", controller.ExportEmployee)
+
 	err := app.Listen(":3000")
 	if err != nil {
 		panic(err)
